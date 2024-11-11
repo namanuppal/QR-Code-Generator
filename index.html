@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+        .input-field {
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #4C51BF;
+            box-shadow: 0 0 0 4px rgba(76, 81, 191, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-200 p-6 md:p-10">
+    <div class="max-w-lg mx-auto bg-white rounded-3xl shadow-lg p-8 space-y-8">
+        <!-- Heading -->
+        <div class="text-center">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-4">QR Code Generator</h1>
+            <p class="text-gray-600 text-lg">Generate a QR Code by entering text below</p>
+        </div>
+
+        <!-- Input field -->
+        <div>
+            <input type="text" id="qrInput" class="input-field w-full px-6 py-3 border-2 border-gray-300 rounded-lg text-xl focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter text here..." />
+        </div>
+
+        <!-- QR Code display container -->
+        <div class="flex justify-center">
+            <div class="w-64 h-64 border-4 border-dashed border-indigo-400 rounded-xl flex items-center justify-center bg-white shadow-xl hover-scale transition-all duration-300 ease-out">
+                <img src="" id="qrImg" alt="Generated QR Code" class="w-32 h-32 transition-opacity duration-500 ease-in-out opacity-0" />
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="text-center">
+            <button id="generateBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-semibold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 transform transition-all duration-200 hover:scale-105">
+                Generate QR Code
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const button = document.getElementById('generateBtn');
+        const qrImg = document.getElementById('qrImg');
+        const qrInput = document.getElementById('qrInput');
+        
+        button.addEventListener('click', () => {
+            const text = qrInput.value.trim();
+            if (text) {
+                const api = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}`;
+                qrImg.src = api;
+                qrImg.classList.remove('opacity-0');
+                qrImg.classList.add('opacity-100');
+            } else {
+                alert('Please enter some text!');
+            }
+        });
+    </script>
+</body>
+</html>
